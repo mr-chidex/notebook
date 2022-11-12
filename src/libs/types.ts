@@ -1,16 +1,6 @@
 import { Request } from 'express';
-
-export interface PostDoc {
-  content: string;
-  postId?: string;
-  commentId?: string;
-}
-
-export interface Image {
-  url: string;
-  id: string;
-}
+import { User } from '../models/User';
 
 export interface IRequest extends Request {
-  user?: { id: string; isAdmin: boolean };
+  user?: User;
 }

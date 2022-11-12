@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import config from './config';
 import { error } from './middlewares/logger';
 import { authRoutes } from './routes';
+import { authUser } from './middlewares';
 
 const app: Application = express();
 const apiVersion = config.API_VERSION || 'v1';
@@ -17,7 +18,7 @@ app.use(cors());
 app.use(helmet());
 app.disable('x-powered-by');
 
-app.use(`/api/${apiVersion}/auth`, authRoutes);
+app.use(`/api/${apiVersion}/auth`, authUser, authRoutes);
 
 // error handler
 app.use(error);
