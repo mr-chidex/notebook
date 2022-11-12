@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, UpdateDateColumn, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BaseEntity,
+  UpdateDateColumn,
+  CreateDateColumn,
+  OneToMany,
+} from 'typeorm';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -12,6 +20,8 @@ export class User extends BaseEntity {
 
   @Column()
   password: string;
+
+  // @OneToMany()
 
   @Column()
   @CreateDateColumn()
