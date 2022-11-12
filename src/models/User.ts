@@ -7,6 +7,7 @@ import {
   CreateDateColumn,
   OneToMany,
 } from 'typeorm';
+import { Note } from './Note';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -21,7 +22,8 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
-  // @OneToMany()
+  @OneToMany(() => Note, (note) => note.owner, { cascade: true })
+  notes: Note[];
 
   @Column()
   @CreateDateColumn()
