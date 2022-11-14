@@ -8,6 +8,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Note } from './Note';
+import { NoteShared } from './NoteShared';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -24,6 +25,12 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Note, (note) => note.owner, { cascade: true })
   notes: Note[];
+
+  @OneToMany(() => NoteShared, (noteShared) => noteShared.owner, { cascade: true })
+  notes_shared: NoteShared[];
+
+  @OneToMany(() => NoteShared, (noteShared) => noteShared.receiver, { cascade: true })
+  notes_received: NoteShared[];
 
   @Column()
   @CreateDateColumn()
