@@ -18,7 +18,7 @@ export class NoteShared extends BaseEntity {
   receiverId: string;
 
   @ManyToOne(() => User, (user) => user.notes_received, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'recieverId' })
+  @JoinColumn({ name: 'receiverId' })
   receiver: User;
 
   @Column()

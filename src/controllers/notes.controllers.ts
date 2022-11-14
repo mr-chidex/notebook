@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import { IRequest } from '../libs/types';
 import { Note } from '../models/Note';
+import { NoteShared } from '../models/NoteShared';
 import { User } from '../models/User';
 import { validateNote } from '../utils/note.validators';
 
@@ -101,7 +102,7 @@ export const updateNote: RequestHandler = async (req: IRequest, res) => {
     },
   });
 
-  if (!note) return res.status(404).json({ message: 'note does not exist' });
+  if (!note) return res.status(404).json({ error: true, message: 'note does not exist' });
 
   note.text = text;
 
@@ -132,4 +133,46 @@ export const deleteNote: RequestHandler = async (req: IRequest, res) => {
   await note.remove();
 
   res.json({ success: true, message: 'note successfully deleted' });
+};
+
+/**
+ *
+ * @route POST /api/v1/notes/:noteId/share
+ * @desc - share note to another user
+ * @acces Private
+ */
+export const shareNote: RequestHandler = async (req: IRequest, res) => {
+  const { noteId } = req.params;
+  const user = req.user as User;
+  const { receiverId } = req.body;
+
+  if (!receiverId) return res.status(400).json({ error: true, message: 'Receiver id is not provided' });
+
+  if (receiverId === user.id) return res.status(400).json({ error: true, message: 'cannot share note to yourself.' });
+
+  // check if note of user is available
+  const isNote = await Note.findOne({
+    where: { id: noteId, ownerId: user.id },
+  });
+  if (!isNote) return res.status(404).json({ error: true, message: 'this note does not exist' });
+
+  //check if receiver is a user
+  const isExist = await User.findOne({
+    where: { id: receiverId },
+    relations: ['notes_received'],
+  });
+  if (!isExist) return res.status(400).json({ error: true, message: 'targeted receiver is not a user' });
+
+  // check if you already sent note to receiver
+  const alreadyShared = isExist.notes_received.find((noteShared) => noteShared.noteId === noteId);
+  if (alreadyShared) return res.status(400).json({ error: true, message: 'note already shared to this user' });
+
+  //share note
+  const noteShared = await NoteShared.create({
+    ownerId: user.id,
+    receiverId,
+    noteId,
+  }).save();
+
+  res.json({ success: true, message: 'note successfully shared', data: noteShared });
 };

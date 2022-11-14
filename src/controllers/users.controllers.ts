@@ -19,6 +19,7 @@ export const profile: RequestHandler = async (req: IRequest, res) => {
     where: {
       id: user.id,
     },
+    relations: ['notes_received', 'notes_shared', 'notes'],
   });
 
   res.json({ success: true, message: 'success', data: userProfile });
