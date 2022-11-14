@@ -5,7 +5,7 @@ import helmet from 'helmet';
 
 import config from './config';
 import { error } from './middlewares/logger';
-import { authRoutes, noteRoutes } from './routes';
+import { authRoutes, noteRoutes, userRoutes } from './routes';
 import { authUser } from './middlewares';
 
 const app: Application = express();
@@ -20,6 +20,7 @@ app.disable('x-powered-by');
 
 app.use(`/api/${apiVersion}/auth`, authRoutes);
 app.use(`/api/${apiVersion}/notes`, authUser, noteRoutes);
+app.use(`/api/${apiVersion}/users`, authUser, userRoutes);
 
 // error handler
 app.use(error);
