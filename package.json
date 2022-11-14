@@ -12,8 +12,8 @@
     "lint:format": "eslint src/**/*.ts --fix",
     "build": "tsc -p .",
     "build:watch": "tsc --watch",
-    "migration:create": "yarn typeorm migration:create  src/migrations/jotter",
-    "migration:gen": "yarn build && yarn typeorm migration:generate -o dist/migrations/jotter -d dist/data-source.js",
+    "migration:create": "yarn typeorm migration:create  src/migrations/note",
+    "migration:gen": "yarn build && yarn typeorm migration:generate -o dist/migrations/note -d dist/data-source.js",
     "migration:run": "yarn typeorm migration:run -d dist/data-source.js",
     "migration:revert": "yarn typeorm migration:revert -d dist/data-source.js",
     "prepare": "husky install"

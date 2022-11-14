@@ -23,12 +23,12 @@ export const createNote: RequestHandler = async (req: IRequest, res) => {
 
   const { text } = value as Note;
 
-  await Note.create({
+  const note = await Note.create({
     text,
-    owner: user,
+    ownerId: user.id,
   }).save();
 
-  res.status(201).json({ success: true, message: 'note successfully created' });
+  res.status(201).json({ success: true, message: 'note successfully created', data: note });
 };
 
 /**
@@ -107,7 +107,7 @@ export const updateNote: RequestHandler = async (req: IRequest, res) => {
 
   await note.save();
 
-  res.json({ success: true, message: 'note updated' });
+  res.json({ success: true, message: 'note successfully updated', data: note });
 };
 
 /**

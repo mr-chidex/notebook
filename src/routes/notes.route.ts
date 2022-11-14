@@ -4,6 +4,6 @@ import { createNote, deleteNote, getNote, getNotes, updateNote } from '../contro
 const router = expressPromise();
 
 router.route('/').post(createNote).get(getNotes);
-router.route('/noteId').get(getNote).patch(updateNote).delete(deleteNote);
+router.route('/:noteId').get(getNote).patch(updateNote).delete(deleteNote);
 
 export const noteRoutes = router;
