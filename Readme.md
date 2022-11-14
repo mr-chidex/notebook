@@ -22,7 +22,7 @@ A Node JS service RESTful API. Where users can write and share written notes to 
 
 ## Documentation
 
-Postman: [See documentation](https://documenter.getpostman.com/view/)
+Postman: [See documentation](https://documenter.getpostman.com/view/11724511/2s8YmEyRso)
 
 ## Clone this project
 
